@@ -36,7 +36,9 @@ public class ExecPosMessageSupplier implements Supplier<Boolean> {
 			execPosMessage.setId(threadNumber);
 			execPosMessage.setService("Service_" + threadNumber);
 			execPosMessage.setThreadId(Thread.currentThread().getName());
-			execPosMessage.setTime(LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME));
+			LocalDateTime currentTime = LocalDateTime.now();
+			execPosMessage.setDateTime(currentTime);
+			execPosMessage.setTime(currentTime.format(DateTimeFormatter.ISO_LOCAL_TIME));
 			Producer<Long, ExecPosMessage> producer = new KafkaProducer<>(props);
 			
 			producer.send(new ProducerRecord<Long, ExecPosMessage>("ExecPos", 

@@ -5,6 +5,8 @@ import java.util.Map;
 import org.apache.kafka.common.serialization.Serializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class ExecPosMessageSerializer implements Serializer<ExecPosMessage> {
 
@@ -16,9 +18,11 @@ public class ExecPosMessageSerializer implements Serializer<ExecPosMessage> {
 	public byte[] serialize(String topic, ExecPosMessage data) {
 		byte[] bytes = null;
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.findAndRegisterModules();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		try {
-			bytes = objectMapper.writeValueAsBytes(data);
+			String str = objectMapper.writeValueAsString(data);
+			bytes = str.getBytes();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

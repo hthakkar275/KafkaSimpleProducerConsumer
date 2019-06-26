@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.kafka.common.serialization.Deserializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class ExecPosMessageDesrializer implements Deserializer<ExecPosMessage> {
 
@@ -17,7 +18,7 @@ public class ExecPosMessageDesrializer implements Deserializer<ExecPosMessage> {
 	public ExecPosMessage deserialize(String topic, byte[] data) {
 		ExecPosMessage message = null;
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.findAndRegisterModules();
+		objectMapper.registerModule(new JavaTimeModule());
 		try {
 			message = objectMapper.readValue(data, ExecPosMessage.class);
 		} catch (Exception e) {

@@ -1,6 +1,8 @@
 package org.hemant.thakkar.producer;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ExecPosMessage implements Serializable {
 	
@@ -13,6 +15,7 @@ public class ExecPosMessage implements Serializable {
 	private String className;
 	private String entryExit;
 	private String time;
+	private LocalDateTime dateTime;
 	private String threadId;
 	
 	public String getService() {
@@ -51,10 +54,17 @@ public class ExecPosMessage implements Serializable {
 	public void setTime(String time) {
 		this.time = time;
 	}
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
 	public String toString() {
 		StringBuilder output = new StringBuilder();
 		output.append("id=").append(id).append(", ");
 		output.append("time=").append(time).append(", ");
+		output.append("datetime=").append(dateTime.format(DateTimeFormatter.ISO_DATE_TIME)).append(", ");
 		output.append("threadId=").append(threadId).append(", ");
 		output.append("service=").append(service).append(", ");
 		output.append("className=").append(className).append(", ");
