@@ -1,7 +1,6 @@
 package org.hemant.thakkar.producer;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.Random;
 import java.util.function.Supplier;

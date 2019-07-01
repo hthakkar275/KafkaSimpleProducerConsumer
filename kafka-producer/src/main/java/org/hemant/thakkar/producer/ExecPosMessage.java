@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-
 public class ExecPosMessage implements Serializable {
 	
 	/**
@@ -21,11 +15,6 @@ public class ExecPosMessage implements Serializable {
 	private String className;
 	private String methodSignature;
 	private String entryExit;
-	
-	//@JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss.SSS")
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm:ss.SSS")
-//	@JsonSerialize(using = LocalDateTimeSerializer.class)
-//	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime dateTime;
 	private String threadId;
 	

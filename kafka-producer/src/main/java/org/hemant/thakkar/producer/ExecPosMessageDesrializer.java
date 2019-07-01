@@ -1,5 +1,6 @@
 package org.hemant.thakkar.producer;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -13,6 +14,18 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 public class ExecPosMessageDesrializer implements Deserializer<ExecPosMessage> {
 
+	private final ObjectMapper objectMapper;
+
+	public ExecPosMessageDesrializer() {
+		objectMapper = new ObjectMapper();
+		JavaTimeModule javaTimeModule = new JavaTimeModule();
+		javaTimeModule.addDeserializer(LocalDateTime.class, 
+				new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+		javaTimeModule.addSerializer(LocalDateTime.class,
+				new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+		objectMapper.registerModule(javaTimeModule);		
+	}
+	
 	@Override
 	public void configure(Map<String, ?> configs, boolean isKey) {
 		// Nothing to do
@@ -21,16 +34,10 @@ public class ExecPosMessageDesrializer implements Deserializer<ExecPosMessage> {
 	@Override
 	public ExecPosMessage deserialize(String topic, byte[] data) {
 		ExecPosMessage message = null;
-		ObjectMapper objectMapper = new ObjectMapper();
-		JavaTimeModule javaTimeModule = new JavaTimeModule();
-		javaTimeModule.addDeserializer(LocalDateTime.class, 
-				new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
-		javaTimeModule.addSerializer(LocalDateTime.class,
-				new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
-		objectMapper.registerModule(javaTimeModule);		
 		try {
 			message = objectMapper.readValue(data, ExecPosMessage.class);
-		} catch (Exception e) {
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return message;
