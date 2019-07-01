@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 public class ExecPosMessage implements Serializable {
 	
 	/**
@@ -13,8 +19,13 @@ public class ExecPosMessage implements Serializable {
 	private long id;
 	private String service;
 	private String className;
+	private String methodSignature;
 	private String entryExit;
-	private String time;
+	
+	//@JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss.SSS")
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm:ss.SSS")
+//	@JsonSerialize(using = LocalDateTimeSerializer.class)
+//	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime dateTime;
 	private String threadId;
 	
@@ -29,6 +40,12 @@ public class ExecPosMessage implements Serializable {
 	}
 	public void setClassName(String className) {
 		this.className = className;
+	}
+	public String getMethodSignature() {
+		return methodSignature;
+	}
+	public void setMethodSignature(String methodSignature) {
+		this.methodSignature = methodSignature;
 	}
 	public String getEntryExit() {
 		return entryExit;
@@ -48,26 +65,35 @@ public class ExecPosMessage implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
-	}
 	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
 	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
+	public String toLogFormat() {
+		StringBuilder output = new StringBuilder();
+		output.append("id=").append(id).append(", ");
+		if (dateTime != null) {
+			output.append(dateTime.format(DateTimeFormatter.ISO_DATE_TIME)).append(" ");
+		}
+		output.append(threadId).append(" ");
+		output.append(service).append(" ");
+		output.append(className).append(" ");
+		output.append(methodSignature).append(" ");
+		output.append(entryExit);
+		return output.toString();
+	}
 	public String toString() {
 		StringBuilder output = new StringBuilder();
 		output.append("id=").append(id).append(", ");
-		output.append("time=").append(time).append(", ");
-		output.append("datetime=").append(dateTime.format(DateTimeFormatter.ISO_DATE_TIME)).append(", ");
+		if (dateTime != null) {
+			output.append("datetime=").append(dateTime.format(DateTimeFormatter.ISO_DATE_TIME)).append(", ");
+		}
 		output.append("threadId=").append(threadId).append(", ");
 		output.append("service=").append(service).append(", ");
 		output.append("className=").append(className).append(", ");
+		output.append("methodSignature=").append(methodSignature).append(", ");
 		output.append("entryExit=").append(entryExit);
 		return output.toString();
 	}

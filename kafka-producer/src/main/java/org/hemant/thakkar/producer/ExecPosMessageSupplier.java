@@ -1,7 +1,6 @@
 package org.hemant.thakkar.producer;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.Random;
@@ -38,7 +37,6 @@ public class ExecPosMessageSupplier implements Supplier<Boolean> {
 			execPosMessage.setThreadId(Thread.currentThread().getName());
 			LocalDateTime currentTime = LocalDateTime.now();
 			execPosMessage.setDateTime(currentTime);
-			execPosMessage.setTime(currentTime.format(DateTimeFormatter.ISO_LOCAL_TIME));
 			Producer<Long, ExecPosMessage> producer = new KafkaProducer<>(props);
 			
 			producer.send(new ProducerRecord<Long, ExecPosMessage>("ExecPos", 
