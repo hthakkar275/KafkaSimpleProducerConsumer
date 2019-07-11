@@ -61,11 +61,11 @@ public class FinexLogConsumer {
 				if (!records.isEmpty()) {
 					consecutiveNoMessage = 0;
 					for (ConsumerRecord<Long, ExecPosMessage> record : records) {
-						String service = record.topic().substring(0, record.topic().indexOf("ExecPos")); 
+						//String service = record.topic().substring(0, record.topic().indexOf("ExecPos")); 
 						// print the offset,key and value for the consumer records.
 						System.out.printf("offset = %d, key = %s, value = %s\n", 
 								record.offset(), record.key(), record.value());
-						String logOutput = service + " " + record.value().toLogFormat() + "\n";
+						String logOutput = record.value().toLogFormat() + "\n";
 						fw.write(logOutput);
 						fw.flush();
 					}
