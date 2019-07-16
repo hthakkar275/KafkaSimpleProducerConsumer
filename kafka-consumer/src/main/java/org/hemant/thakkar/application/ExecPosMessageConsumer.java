@@ -23,7 +23,7 @@ public class ExecPosMessageConsumer {
 		props.put("session.timeout.ms", "30000");
 		props.put("key.deserializer",  "org.apache.kafka.common.serialization.LongDeserializer");
 		props.put("value.deserializer", "org.hemant.thakkar.consumer.ExecPosMessageDesrializer");
-		Path path = Paths.get("/Users/hemantthakkar/Downloads/OrderLog.txt");
+		Path path = Paths.get("/Users/Hemant/Downloads/OrderLog.txt");
 		FileWriter fw = new FileWriter(path.toFile());
 		
 		KafkaConsumer<Long, ExecPosMessage> consumer = new KafkaConsumer

@@ -39,13 +39,13 @@ public class ExecPosMessageSupplier implements Supplier<Boolean> {
 			Producer<Long, ExecPosMessage> producer = new KafkaProducer<>(props);
 			
 			producer.send(new ProducerRecord<Long, ExecPosMessage>("ExecPos", 
-			new Long(threadNumber), execPosMessage));
+			Long.valueOf(threadNumber), execPosMessage));
 			
 			Thread.sleep(random.nextInt(5) * 1000);
 			
 			execPosMessage.setEntryExit("Exit");
 			producer.send(new ProducerRecord<Long, ExecPosMessage>("ExecPos", 
-			new Long(threadNumber), execPosMessage));
+			Long.valueOf(threadNumber), execPosMessage));
 
 			producer.close();
 			
